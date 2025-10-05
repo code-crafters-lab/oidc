@@ -58,6 +58,7 @@ func ParseTokenIntrospectionRequest(r *http.Request, introspector Introspector) 
 		return "", "", err
 	}
 	if !authenticated {
+		// todo 令牌自省文档查阅调整
 		return "", "", oidc.ErrInvalidClient().WithParent(ErrNoClientCredentials)
 	}
 

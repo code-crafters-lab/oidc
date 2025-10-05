@@ -18,7 +18,7 @@ type AuthStorage interface {
 	SaveAuthCode(context.Context, string, string) error
 	DeleteAuthRequest(context.Context, string) error
 
-	// The TokenRequest parameter of CreateAccessToken can be any of:
+	// CreateAccessToken The TokenRequest parameter of CreateAccessToken can be any of:
 	//
 	// * TokenRequest as returned by ClientCredentialsStorage.ClientCredentialsTokenRequest,
 	//
@@ -30,7 +30,7 @@ type AuthStorage interface {
 	// * TokenExchangeRequest as returned by ValidateTokenExchangeRequest
 	CreateAccessToken(context.Context, TokenRequest) (accessTokenID string, expiration time.Time, err error)
 
-	// The TokenRequest parameter of CreateAccessAndRefreshTokens can be any of:
+	// CreateAccessAndRefreshTokens The TokenRequest parameter of CreateAccessAndRefreshTokens can be any of:
 	//
 	// * TokenRequest as returned by ClientCredentialsStorage.ClientCredentialsTokenRequest
 	//

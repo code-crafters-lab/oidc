@@ -147,7 +147,7 @@ func RegisterClients(registerClients ...*Client) {
 func NativeClient(id string, redirectURIs ...string) *Client {
 	if len(redirectURIs) == 0 {
 		redirectURIs = []string{
-			"http://localhost/auth/callback",
+			"http://localhost:5000/auth/callback",
 			"custom://auth/callback",
 		}
 	}
@@ -175,6 +175,7 @@ func WebClient(id, secret string, redirectURIs ...string) *Client {
 	if len(redirectURIs) == 0 {
 		redirectURIs = []string{
 			"http://localhost:9999/auth/callback",
+			"http://localhost:3000/*",
 		}
 	}
 	return &Client{

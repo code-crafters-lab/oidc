@@ -47,6 +47,7 @@ func SetupServer(issuer string, storage Storage, logger *slog.Logger, wrapServer
 	// for simplicity, we provide a very small default page for users who have signed out
 	router.HandleFunc(pathLoggedOut, func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte("signed out successfully"))
+		// todo 跳转回统一认证中心登录页
 		// no need to check/log error, this will be handled by the middleware.
 	})
 
@@ -136,7 +137,10 @@ func newOP(
 			//we must explicitly allow the use of the http issuer
 			op.WithAllowInsecure(),
 			// as an example on how to customize an endpoint this will change the authorization_endpoint from /authorize to /auth
-			op.WithCustomAuthEndpoint(op.NewEndpoint("auth")),
+			op.WithCustomIntrospectionEndpoint(op.NewEndpoint("oauth2/introspect")),
+			op.WithCustomEndpoints(op.NewEndpoint("oauth2/authorize"), op.NewEndpoint("oauth2/token"),
+				op.NewEndpoint("oauth2/userinfo"), op.NewEndpoint("oauth2/revoke"), op.NewEndpoint("oauth2/end_session"),
+				op.NewEndpoint("oauth2/jwks")),
 			// Pass our logger to the OP
 			op.WithLogger(logger.WithGroup("op")),
 		}, extraOptions...)...,

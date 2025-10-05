@@ -116,6 +116,7 @@ func CheckSubject(claims Claims) error {
 }
 
 func CheckIssuer(claims Claims, issuer string) error {
+	// todo http://localhost:9998, http://localhost:9998/ ,配置多一个 “/”将导致验证不能通过
 	if claims.GetIssuer() != issuer {
 		return fmt.Errorf("%w: Expected: %s, got: %s", ErrIssuerInvalid, issuer, claims.GetIssuer())
 	}

@@ -4,6 +4,7 @@ const (
 	DiscoveryEndpoint = "/.well-known/openid-configuration"
 )
 
+// DiscoveryConfiguration https://datatracker.ietf.org/doc/html/rfc8414#section-2
 type DiscoveryConfiguration struct {
 	// Issuer is the identifier of the OP and is used in the tokens as `iss` claim.
 	Issuer string `json:"issuer,omitempty"`

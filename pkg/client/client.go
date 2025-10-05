@@ -26,12 +26,13 @@ var (
 )
 
 // Discover calls the discovery endpoint of the provided issuer and returns its configuration
-// It accepts an optional argument "wellknownUrl" which can be used to overide the dicovery endpoint url
+// It accepts an optional argument "wellknownUrl" which can be used to override the discovery endpoint url
 func Discover(ctx context.Context, issuer string, httpClient *http.Client, wellKnownUrl ...string) (*oidc.DiscoveryConfiguration, error) {
 	ctx, span := Tracer.Start(ctx, "Discover")
 	defer span.End()
 
-	wellKnown := strings.TrimSuffix(issuer, "/") + oidc.DiscoveryEndpoint
+	issuerUrl := strings.TrimSuffix(issuer, "/")
+	wellKnown := issuerUrl + oidc.DiscoveryEndpoint
 	if len(wellKnownUrl) == 1 && wellKnownUrl[0] != "" {
 		wellKnown = wellKnownUrl[0]
 	}
@@ -48,7 +49,7 @@ func Discover(ctx context.Context, issuer string, httpClient *http.Client, wellK
 		logger.Debug("discover", "config", discoveryConfig)
 	}
 
-	if discoveryConfig.Issuer != issuer {
+	if strings.TrimSuffix(discoveryConfig.Issuer, "/") != issuerUrl {
 		return nil, oidc.ErrIssuerInvalid
 	}
 	return discoveryConfig, nil
