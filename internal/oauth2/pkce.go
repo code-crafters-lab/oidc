@@ -21,6 +21,7 @@ type GeneratorOptions = func(*pkce)
 type PKCE interface {
 	GenerateCodeChallenge(options ...GeneratorOptions) string
 	VerifyCodeChallenge(codeVerifier string) bool
+	Print()
 }
 
 type pkce struct {
@@ -76,6 +77,12 @@ func (p *pkce) VerifyCodeChallenge(codeVerifier string) bool {
 		return p.codeChallenge == codeVerifier
 	}
 	return false
+}
+
+func (p *pkce) Print() {
+	println("codeVerifier:", p.codeVerifier)
+	println("codeChallengeMethod:", p.codeChallengeMethod)
+	println("codeChallenge:", p.codeChallenge)
 }
 
 func NewPKCE() PKCE {
